@@ -32,7 +32,7 @@ Be sure to follow all instructions in the `readme`.
 <a name="prerequisites"></a>
 ## Prerequisites
 
-1. Before you can work with the Creative SDK, you must register your application and get Client ID and Client Secret values. For details, see [Registering Your Application](#register).
+1. Before you can work with the Creative SDK, you must register your application and get Client ID (API Key) and Client Secret values. For details, see [Registering Your Application](#register).
 1. The following software is required:
 
     - Mac OS X, Windows, or Linux
@@ -72,7 +72,7 @@ Then fill out the **Integration Info** form:
 
 1. Enter a comma-separated list of redirect URIs
 
-    Used to verify that your Client ID is being used by your site and your site alone.
+    Used to verify that your Client ID (API Key) is being used by your site and your site alone.
 
     List any subdomains here. Note that you cannot use regex here.
 
@@ -197,7 +197,7 @@ The Creative SDK is now offered as a remote Maven repository. This section will 
 
 <a name="client-auth"></a>
 ## Integrating the Authentication Component
-Client authentication is required to use the Creative SDK. You can authenticate your client with the Client ID and Client Secret you have obtained from the [**My Apps** page](https://creativesdk.adobe.com/myapps.html).
+Client authentication is required to use the Creative SDK. You can authenticate your client with the Client ID (API Key) and Client Secret you have obtained from the [**My Apps** page](https://creativesdk.adobe.com/myapps.html).
 
 1. Create an `Application` subclass
 
@@ -294,7 +294,7 @@ _**Tip:** to inspect the source code for a class or method in Android Studio, Co
 1. Unzip the file.
 1. Open the `CreativeSDKSampleApp` project in Android Studio.
 1. Sync the project with the Gradle files.
-1. Add your Client ID and Client Secret to `/util/CreativeSDKSampleApplication.java`.
+1. Add your Client ID (API Key) and Client Secret to `/util/CreativeSDKSampleApplication.java`.
 
 
 <a name="explore"></a>
