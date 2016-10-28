@@ -55,7 +55,7 @@ _**Note:**_
 
     ```language-java
     /* Add the CSDK framework dependencies (Make sure these version numbers are correct) */
-    compile 'com.adobe.creativesdk.foundation:auth:0.9.1062'
+    compile 'com.adobe.creativesdk.foundation:auth:0.9.1186'
     compile 'com.adobe.creativesdk:image:4.6.3'
     compile 'com.localytics.android:library:3.8.0'
     ```

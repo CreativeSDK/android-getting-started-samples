@@ -56,8 +56,8 @@ Add the following Creative SDK dependencies to your _Module_ `build.gradle` file
 
 ```language-java
 /* Add the CSDK framework dependencies (Make sure these version numbers are correct) */
-compile 'com.adobe.creativesdk.foundation:auth:0.9.1062'
-compile 'com.adobe.creativesdk.foundation:assetux:0.9.1062'
+compile 'com.adobe.creativesdk.foundation:auth:0.9.1186'
+compile 'com.adobe.creativesdk.foundation:assetux:0.9.1186'
 ```
 
 <a name="launch"></a>
