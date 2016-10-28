@@ -212,7 +212,7 @@ Client authentication is required to use the Creative SDK. You can authenticate 
     public class MainApplication extends Application implements IAdobeAuthClientCredentials {
         
         /* Be sure to fill in the two strings below. */
-        private static final String CREATIVE_SDK_CLIENT_ID = "<YOUR_CLIENT_ID_HERE>";
+        private static final String CREATIVE_SDK_CLIENT_ID = "<YOUR_API_KEY_HERE>";
         private static final String CREATIVE_SDK_CLIENT_SECRET = "<YOUR_CLIENT_SECRET_HERE>";
 
         @Override
