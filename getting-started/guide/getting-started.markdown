@@ -48,19 +48,49 @@ _**Note:** The Creative SDK supports Android API Level 16 as the lowest [minSdkV
 
 <a name="register"></a>
 ## Registering Your Application
+
 When you register your application, you are automatically approved for Development Mode. 
 
-- _Your Client ID must be [approved for **Production Mode** by Adobe](https://creativesdk.zendesk.com/hc/en-us/articles/204601215-How-to-complete-the-Production-Client-ID-Request) before you release your app. See the [What's Next?](#whats-next) section for details on submitting your app for Production Mode approval._
+_**Important:** Your Client ID (API Key) must be [approved for **Production Mode** by Adobe](https://creativesdk.zendesk.com/hc/en-us/articles/204601215-How-to-complete-the-Production-Client-ID-Request) before you release your app._ See the "What's Next?" section of this guide for details on submitting your app for Production Mode approval.
 
 To register your application for Development Mode, follow these steps:
 
-1. Sign in or register for a Creative SDK developer account
-1. Go to the [**My Apps** page](https://creativesdk.adobe.com/myapps.html)
-1. Click "+ NEW APPLICATION"
-1. Fill out the form, then click "ADD APPLICATION"
+1. Go to the [Adobe.io Console](https://adobe.io/console/)
+1. Click "+ New Integration"
+1. Click "Adobe ID Key", then "Next"
 
+Then fill out the **Integration Info** form: 
 
-_**Important:** As part of registering your application, you are given a Client ID and Secret. Write these down and save them. You will need them in the future, and this is the **only time** you can see them._
+1. Select "Android" as your platform
+1. Enter your Integration Name
+
+    This is your app name, and will be displayed to the user when they authorize your app during the User Auth process.
+    
+1. Enter your Default redirect URI
+
+    This should be your root domain.
+
+1. Enter a comma-separated list of redirect URIs
+
+    Used to verify that your Client ID is being used by your site and your site alone.
+
+    List any subdomains here. Note that you cannot use regex here.
+
+1. Enter a description of your app
+
+    Shown only to you when you access this Console, and to Adobe for internal purposes, including during the app approval process.
+
+1. Fill out the Captcha
+1. Click the "Next" button
+
+On the next page, add **Integration services**:
+
+1. Click the "Add service" dropdown
+1. Select "Creative SDK"
+1. Click the "Add service" button
+1. Scroll to the bottom of the page and click the "Save" button
+
+_**Note:** As part of registering your application, you are given a **Client ID** (API Key), **Client Secret**, and **Redirect URI**. We will use these in the steps below._
 
 
 <a name="new-project"></a>
@@ -158,7 +188,7 @@ The Creative SDK is now offered as a remote Maven repository. This section will 
         compile 'com.android.support:design:23.4.0'
 
         /* 4) Add the CSDK framework dependencies (Make sure these version numbers are correct) */
-        compile 'com.adobe.creativesdk.foundation:auth:0.9.1062'
+        compile 'com.adobe.creativesdk.foundation:auth:0.9.1186'
     }
     ```
 
