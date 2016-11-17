@@ -24,7 +24,7 @@ allprojects {
 
         /* 3) Add the Creative SDK Maven repo URL */
         maven {
-            url 'https://repo.adobe.com/nexus/content/repositories/releases/'
+            url 'https://artifactory.corp.adobe.com/artifactory/maven-csdk-snapshot-local/'
         }
     }
 }

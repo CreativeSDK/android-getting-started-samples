@@ -23,8 +23,12 @@ allprojects {
         mavenCentral()
 
         /* 3) Add the Creative SDK Maven repo URL */
-        maven {
-            url ''
+//        maven {
+//            url 'https://artifactory.corp.adobe.com/artifactory/maven-csdk-snapshot-local/'
+//        }
+
+        maven{
+            url "${project.rootDir}/csdk-android" //ADD THE CORRECT LOCATION OF THE CREATIVESDK LIBRARY FILES
         }
     }
 }

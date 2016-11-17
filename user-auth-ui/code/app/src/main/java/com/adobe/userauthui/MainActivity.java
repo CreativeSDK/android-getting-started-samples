@@ -15,9 +15,16 @@ import com.adobe.creativesdk.foundation.auth.AdobeUXAuthManager;
 
 public class MainActivity extends AppCompatActivity {
 
+    public static final String TAG = MainActivity.class.getSimpleName();
+
     /* 1 */
+    private static final int USER_AUTH_REQUEST_CODE = 100;
+
     private AdobeUXAuthManager mUXAuthManager = AdobeUXAuthManager.getSharedAuthManager();
     private AdobeAuthSessionHelper mAuthSessionHelper;
+
+    private static final String mRedirectURI = "ams+e6cbfc3e52b70ebd9c80aa76539c60d8679cfa01://adobeid/4267a5d697a344cca97408ec6762199f";
+    private final String[] mAuthScope = {"email", "profile", "address"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +33,9 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        /* 2 */
+
         mAuthSessionHelper = new AdobeAuthSessionHelper(mStatusCallback);
         mAuthSessionHelper.onCreate(savedInstanceState);
-
     }
 
     private AdobeAuthSessionHelper.IAdobeAuthStatusCallback mStatusCallback;
@@ -37,30 +43,25 @@ public class MainActivity extends AppCompatActivity {
         mStatusCallback = new AdobeAuthSessionHelper.IAdobeAuthStatusCallback() {
             @Override
             public void call(AdobeAuthSessionHelper.AdobeAuthStatus adobeAuthStatus, AdobeAuthException e) {
-                if (AdobeAuthSessionHelper.AdobeAuthStatus.AdobeAuthLoggedIn == adobeAuthStatus) {
+                if (!mUXAuthManager.isAuthenticated()) {
                     /* 3 */
-                    showAuthenticatedUI();
+                    login();
                 } else {
                     /* 4 */
-                    showAdobeLoginUI();
+                    Log.d(TAG, "Already logged in!");
                 }
             }
         };
     }
 
-    private void showAdobeLoginUI() {
-        mUXAuthManager.login(new AdobeAuthSessionLauncher.Builder()
-                        .withActivity(this)
-                        .withRequestCode(200) // Can be any int
-                        .build()
-        );
-    }
+    private void login() {
+        AdobeAuthSessionLauncher authSessionLauncher = new AdobeAuthSessionLauncher.Builder().withActivity(this)
+                .withRedirectURI("")
+                .withAdditonalScopes(mAuthScope)
+                .withRequestCode(USER_AUTH_REQUEST_CODE)
+                .build();
 
-    private void showAuthenticatedUI() {
-
-        /* 5 */
-        Log.i(MainActivity.class.getSimpleName(), "User is logged in!");
-
+        mUXAuthManager.login(authSessionLauncher);
     }
 
     @Override
@@ -97,6 +98,13 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mAuthSessionHelper.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case USER_AUTH_REQUEST_CODE:
+                    Log.d(TAG, "User Auth result");
+            }
+        }
     }
 
     @Override

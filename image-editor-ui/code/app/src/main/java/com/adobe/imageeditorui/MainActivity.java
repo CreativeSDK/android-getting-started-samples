@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
     private ImageView mEditedImageView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,9 +28,12 @@ public class MainActivity extends AppCompatActivity {
         /* 1) Make a new Uri object (Replace this with a real image on your device) */
         Uri imageUri = Uri.parse("content://media/external/images/media/1248");
 
+        //ToolsFactory.Tools quickLaunchTool = ToolsFactory.Tools.CROP;
+
         /* 2) Create a new Intent */
         Intent imageEditorIntent = new AdobeImageIntent.Builder(this)
                 .setData(imageUri)
+                //.quickLaunchTool(quickLaunchTool, savedInstanceState)
                 .build();
 
         /* 3) Start the Image Editor with request code 1 */
