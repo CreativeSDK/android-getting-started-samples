@@ -119,14 +119,13 @@ public class MainActivity extends AppCompatActivity {
         mStatusCallback = new AdobeAuthSessionHelper.IAdobeAuthStatusCallback() {
             @Override
             public void call(AdobeAuthSessionHelper.AdobeAuthStatus adobeAuthStatus, AdobeAuthException e) {
-                if (AdobeAuthSessionHelper.AdobeAuthStatus.AdobeAuthLoggedIn == adobeAuthStatus) {
+                if (!mUXAuthManager.isAuthenticated()) {
+                    login();
+                } else {
+                    Log.d(TAG, "Already logged in!");
 
                     /* 2) Call a helper method to initialize the `AdobeTypekitManager` */
                     initializeTypekitManager();
-                    
-                    showAuthenticatedUI();
-                } else {
-                    showAdobeLoginUI();
                 }
             }
         };

@@ -15,7 +15,7 @@ _**Note:** The Creative SDK for Android is now available as a **remote Maven rep
 1. [Prerequisites](#prerequisites)
 1. [Registering Your Application](#register)
 1. [Adding the SDK to a New Project](#new-project)
-1. [Integrating the Authentication Component](#client-auth)
+1. [Integrating the Client Auth component](#client-auth)
 1. [What's Next?](#whats-next)
 1. [Class Reference](#reference)
 1. [Building the Sample Application](#sample-project)
@@ -43,7 +43,7 @@ Be sure to follow all instructions in the `readme`.
     - Android Support Repository 32 or higher
 
 
-_**Note:** The Creative SDK supports Android API Level 16 as the lowest [minSdkVersion](http://developer.android.com/guide/topics/manifest/uses-sdk-element.html#min), and the recommended [targetSdkVersion](http://developer.android.com/guide/topics/manifest/uses-sdk-element.html#target) is API 23._
+_**Note:** The Creative SDK supports Android API Level 16 as the lowest [minSdkVersion](http://developer.android.com/guide/topics/manifest/uses-sdk-element.html#min), and API Level 24 as the maximum [targetSdkVersion](http://developer.android.com/guide/topics/manifest/uses-sdk-element.html#target)._
 
 
 <a name="register"></a>
@@ -53,49 +53,12 @@ When you register your application, you are automatically approved for Developme
 
 _**Important:** Your Client ID (API Key) must be [approved for **Production Mode** by Adobe](https://creativesdk.zendesk.com/hc/en-us/articles/204601215-How-to-complete-the-Production-Client-ID-Request) before you release your app._ See the "What's Next?" section of this guide for details on submitting your app for Production Mode approval.
 
-To register your application for Development Mode, follow these steps:
-
-1. Go to the [Adobe.io Console](https://adobe.io/console/)
-1. Click "+ New Integration"
-1. Click "Adobe ID Key", then "Next"
-
-Then fill out the **Integration Info** form: 
-
-1. Select "Android" as your platform
-1. Enter your Integration Name
-
-    This is your app name, and will be displayed to the user when they authorize your app during the User Auth process.
-    
-1. Enter your Default redirect URI
-
-    This should be your root domain.
-
-1. Enter a comma-separated list of redirect URIs
-
-    Used to verify that your Client ID (API Key) is being used by your site and your site alone.
-
-    List any subdomains here. Note that you cannot use regex here.
-
-1. Enter a description of your app
-
-    Shown only to you when you access this Console, and to Adobe for internal purposes, including during the app approval process.
-
-1. Fill out the Captcha
-1. Click the "Next" button
-
-On the next page, add **Integration services**:
-
-1. Click the "Add service" dropdown
-1. Select "Creative SDK"
-1. Click the "Add service" button
-1. Scroll to the bottom of the page and click the "Save" button
-
-_**Note:** As part of registering your application, you are given a **Client ID** (API Key), **Client Secret**, and **Redirect URI**. We will use these in the steps below._
+To register your application for Development Mode, [follow the steps in our App Registration guide](https://creativesdk.zendesk.com/hc/en-us/articles/216369343-Why-and-how-to-register-my-app-).
 
 
 <a name="new-project"></a>
 ## Adding the SDK to a New Project
-The Creative SDK is now offered as a remote Maven repository. This section will show you how to add the Maven repo and the Creative SDK frameworks.
+The Creative SDK is offered as a remote Maven repository. This section will show you how to add the Maven repo and the Creative SDK frameworks.
 
 1. Add the Maven URL for the Creative SDK repo and the Gradle Retrolambda Plugin to your _Project_ `build.gradle` file
 
@@ -107,7 +70,7 @@ The Creative SDK is now offered as a remote Maven repository. This section will 
             jcenter()
         }
         dependencies {
-            classpath 'com.android.tools.build:gradle:2.1.2'
+            classpath 'com.android.tools.build:gradle:2.2.2'
 
             /* 1) Add the Gradle Retrolambda Plugin */
             classpath 'me.tatarka:gradle-retrolambda:3.3.0-beta4'
@@ -147,13 +110,13 @@ The Creative SDK is now offered as a remote Maven repository. This section will 
     apply plugin: 'me.tatarka.retrolambda'
 
     android {
-        compileSdkVersion 23
-        buildToolsVersion "23.0.3"
+        compileSdkVersion 24
+        buildToolsVersion "24.0.3"
 
         defaultConfig {
             applicationId "com.adobe.gettingstarted"
             minSdkVersion 16 // Minimum is 16
-            targetSdkVersion 23
+            targetSdkVersion 24 // Maximum is 24
             versionCode 1
             versionName "1.0"
         }
@@ -184,8 +147,8 @@ The Creative SDK is now offered as a remote Maven repository. This section will 
     dependencies {
         compile fileTree(dir: 'libs', include: ['*.jar'])
         testCompile 'junit:junit:4.12'
-        compile 'com.android.support:appcompat-v7:23.4.0'
-        compile 'com.android.support:design:23.4.0'
+        compile 'com.android.support:appcompat-v7:24.0.0'
+        compile 'com.android.support:design:24.0.0'
 
         /* 4) Add the CSDK framework dependencies (Make sure these version numbers are correct) */
         compile 'com.adobe.creativesdk.foundation:auth:0.9.1186'
@@ -196,8 +159,8 @@ The Creative SDK is now offered as a remote Maven repository. This section will 
 
 
 <a name="client-auth"></a>
-## Integrating the Authentication Component
-Client authentication is required to use the Creative SDK. You can authenticate your client with the Client ID (API Key) and Client Secret you have obtained from the [**My Apps** page](https://creativesdk.adobe.com/myapps.html).
+## Integrating the Client Auth component
+Client authentication is required to use the Creative SDK. You can authenticate your client with the Client ID (API Key) and Client Secret you received in the "Registering Your Application" section above.
 
 1. Create an `Application` subclass
 
@@ -235,7 +198,7 @@ Client authentication is required to use the Creative SDK. You can authenticate 
    
 1. Register the Main Application in the Android Manifest
     
-    Inside of the top level <code>application</code> tag, we will add a new attribute: `android:name=".MainApplication"`
+    Inside of the top level `application` tag, we will add a new attribute: `android:name=".MainApplication"`:
 
     ```language-xml
     <application
@@ -250,7 +213,7 @@ Client authentication is required to use the Creative SDK. You can authenticate 
 
 1. Run the app
 
-    That's it. You have registered an app, added the SDK, and implemented client auth in just a few simple steps.
+    That's it. You have registered an app, added the SDK, and implemented Client Auth in just a few simple steps.
 
     Go ahead and run the app. You won't see anything happening yet, but you have the foundation for your integration with the Creative SDK.
 
@@ -309,7 +272,7 @@ You can learn more in the Creative SDK framework guides:
 
 - [User Auth UI](https://creativesdk.adobe.com/docs/android/#/articles/userauth/index.html)
 - [Asset Browser UI](https://creativesdk.adobe.com/docs/android/#/articles/assetbrowser/index.html)
-- TypeKit UI (Coming Soon)
+- [TypeKit UI](https://creativesdk.adobe.com/docs/android/#/articles/typekitui/index.html)
 - Creative Cloud Files API (Coming Soon)
 - Lightroom Photos API (Coming Soon)
 - Creative Cloud Libraries API (Coming Soon)

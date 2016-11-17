@@ -38,6 +38,7 @@ Be sure to follow all instructions in the `readme`.
 This guide will assume that you have installed all software and completed all of the steps in [the Getting Started guide](https://creativesdk.adobe.com/docs/android/#/articles/gettingstarted/index.html).
 
 - _Your Client ID must be [approved for **Production Mode** by Adobe](https://creativesdk.zendesk.com/hc/en-us/articles/204601215-How-to-complete-the-Production-Client-ID-Request) before you release your app._
+- _Make sure you have the Redirect URI that you receieved during the "Registering Your Application" section of [the Getting Started guide](https://creativesdk.adobe.com/docs/android/#/articles/gettingstarted/index.html). We will use during this guide._
 
 
 <a name="config"></a>
@@ -54,16 +55,18 @@ compile 'com.adobe.creativesdk.foundation:auth:0.9.1186'
 ## Allowing the user to log in
 For this example, user login involves the following flow in the Main Activity.
 
-1. The `AdobeUXAuthManager` is initialized with the Client ID and Secret. _**Note:** this must be done before auth operations such as login and logout._
-2. The `AdobeAuthSessionHelper` retrieves the user's current auth status with a callback.
-3. If the user is not logged in, they will see the Adobe ID login screen.
-4. If the user is logged in (or if they logged in during the previous step), they will see the Main Activity layout.
-5. Your app continues from there.
+1. The `AdobeUXAuthManager` is initialized. _**Note:** this must be done before auth operations such as login and logout._
+1. The `AdobeAuthSessionHelper` retrieves the user's current auth status and supplies it in a callback.
+1. If the user is not logged in, they will see the Adobe ID login screen.
+1. You launch the Adobe ID login screen by calling `AdobeUXAuthManager.login()` and passing in an `AdobeAuthSessionLauncher`
 
-These steps are numbered **#1-5** in the code comments below:
+
+These steps are numbered **#1-4** in the code comments below:
 
 ```language-java
 public class MainActivity extends AppCompatActivity {
+
+    public static final String TAG = MainActivity.class.getSimpleName();
 
     /* 1 */
     private AdobeUXAuthManager mUXAuthManager = AdobeUXAuthManager.getSharedAuthManager();
@@ -71,10 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        // ...
 
         /* 2 */
         mAuthSessionHelper = new AdobeAuthSessionHelper(mStatusCallback);
@@ -87,35 +87,41 @@ public class MainActivity extends AppCompatActivity {
         mStatusCallback = new AdobeAuthSessionHelper.IAdobeAuthStatusCallback() {
             @Override
             public void call(AdobeAuthSessionHelper.AdobeAuthStatus adobeAuthStatus, AdobeAuthException e) {
-                if (AdobeAuthSessionHelper.AdobeAuthStatus.AdobeAuthLoggedIn == adobeAuthStatus) {
+                if (!mUXAuthManager.isAuthenticated()) {
                     /* 3 */
-                    showAuthenticatedUI();
+                    login();
                 } else {
-                    /* 4 */
-                    showAdobeLoginUI();
+                    Log.d(TAG, "Already logged in!");
                 }
             }
         };
     }
 
-    private void showAdobeLoginUI() {
-        mUXAuthManager.login(new AdobeAuthSessionLauncher.Builder()
-                        .withActivity(this)
-                        .withRequestCode(200) // Can be any int
-                        .build()
-        );
-    }
+    /* 4 */
+    private void login() {
+        private final String[] authScope = {"email", "profile", "address"};
 
-    private void showAuthenticatedUI() {
+        AdobeAuthSessionLauncher authSessionLauncher = new AdobeAuthSessionLauncher.Builder()
+                .withActivity(this)
+                .withRedirectURI("<YOUR_REDIRECT_URI_HERE>")
+                .withAdditonalScopes(authScope)
+                .withRequestCode(1001) // Can be any int
+                .build();
 
-        /* 5 */
-        Log.i(MainActivity.class.getSimpleName(), "User is logged in!");
-
+        mUXAuthManager.login(authSessionLauncher);
     }
 
     // ...
 ```
 
+Note that as part of building the `AdobeAuthSessionLauncher`, you call:
+
+1. `withRedirectURI()`, passing in the Redirect URI that you received during the "Registering Your Application" section of [the Getting Started guide](https://creativesdk.adobe.com/docs/android/#/articles/gettingstarted/index.html)
+1. `withAdditonalScopes()`, passing in a String array of User Auth scopes
+
+**These are both required** to authenticate a user. 
+
+The Redirect URI helps authenticate your client to Adobe. The additional scopes let the user authorize your app for the required level of access to their information (the user will be shown a screen noting what information they are authorizing access for).
 
 <a name="overrides"></a>
 ## Activity Lifecycle methods
